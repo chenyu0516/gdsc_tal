@@ -5,7 +5,6 @@ import torch
 import accelerate
 import os
 
-
 access_token = os.environ['ACCESS_TOKEN']
 login(token = access_token)
 
@@ -52,6 +51,8 @@ class Chat_With:
         if self._use_pipline:
             while True:
                 user_input = input("User: ")
+                if "!EXIT" in user_input:
+                    break
                 input = self.prepare_prompt(user_input)
                 sequences = self.pipeline(
                     input,
@@ -71,6 +72,8 @@ class Chat_With:
         else:
             while True:
                 user_input = input("User: ")
+                if "!EXIT" in user_input:
+                    break
                 input = self.prepare_prompt(user_input)
                 model_inputs = self.tokenizer(input, return_tensors="pt").to("cuda:0")
                 output = self.model.generate(**model_inputs, max_length=2048)
